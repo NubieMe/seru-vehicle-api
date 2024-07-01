@@ -30,7 +30,7 @@ model Vehicle_Brand {
   created_at DateTime       @default(now())
   updated_at DateTime       @updatedAt
 
-  @@map("vehicle_brand")
+  @@map("vehicle_brands")
 }
 
 model Vehicle_Type {
@@ -42,7 +42,7 @@ model Vehicle_Type {
   created_at DateTime        @default(now())
   updated_at DateTime        @updatedAt
 
-  @@map("vehicle_type")
+  @@map("vehicle_types")
 }
 
 model Vehicle_Model {
@@ -54,7 +54,7 @@ model Vehicle_Model {
   created_at DateTime     @default(now())
   updated_at DateTime     @updatedAt
 
-  @@map("vehicle_model")
+  @@map("vehicle_models")
 }
 
 model Pricelist {
@@ -68,7 +68,7 @@ model Pricelist {
   created_at DateTime      @default(now())
   updated_at DateTime      @updatedAt
 
-  @@map("pricelist")
+  @@map("pricelists")
 }
 
 model Vehicle_Year {
@@ -78,5 +78,5 @@ model Vehicle_Year {
   created_at DateTime    @default(now())
   updated_at DateTime    @updatedAt
 
-  @@map("vehicle_year")
+  @@map("vehicle_years")
 }
