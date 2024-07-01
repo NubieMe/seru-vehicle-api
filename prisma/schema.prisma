@@ -12,3 +12,71 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id         Int      @id @default(autoincrement())
+  name       String
+  is_admin   Boolean
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Vehicle_Brand {
+  id         Int            @id @default(autoincrement())
+  name       String
+  type       Vehicle_Type[]
+  created_at DateTime       @default(now())
+  updated_at DateTime       @updatedAt
+
+  @@map("vehicle_brand")
+}
+
+model Vehicle_Type {
+  id         Int             @id @default(autoincrement())
+  name       String
+  brand_id   Int
+  brand      Vehicle_Brand   @relation(fields: [brand_id], references: [id])
+  model      Vehicle_Model[]
+  created_at DateTime        @default(now())
+  updated_at DateTime        @updatedAt
+
+  @@map("vehicle_type")
+}
+
+model Vehicle_Model {
+  id         Int          @id @default(autoincrement())
+  name       String
+  type_id    Int
+  type       Vehicle_Type @relation(fields: [type_id], references: [id])
+  price      Pricelist[]
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+
+  @@map("vehicle_model")
+}
+
+model Pricelist {
+  id         Int           @id @default(autoincrement())
+  code       String
+  price      Int
+  year_id    Int
+  year       Vehicle_Year  @relation(fields: [year_id], references: [id])
+  model_id   Int
+  model      Vehicle_Model @relation(fields: [model_id], references: [id])
+  created_at DateTime      @default(now())
+  updated_at DateTime      @updatedAt
+
+  @@map("pricelist")
+}
+
+model Vehicle_Year {
+  id         Int         @id @default(autoincrement())
+  year       String
+  price      Pricelist[]
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
+
+  @@map("vehicle_year")
+}
