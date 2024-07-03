@@ -1,7 +1,12 @@
 import express from "express";
 import { AuthController } from "../controllers/auth-controller";
+import { BrandController } from "../controllers/brand-controller";
 
 export const routes = express.Router();
 
+// user API
 routes.post("/register", AuthController.register);
 routes.post("/login", AuthController.login);
+
+// brand API
+routes.post("/brand", BrandController.create);
