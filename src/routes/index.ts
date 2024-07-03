@@ -30,3 +30,4 @@ routes.post("/model", auth, ModelController.create);
 routes.get("/model", auth, ModelController.getAll);
 routes.get("/model/:id", auth, ModelController.getOne);
 routes.put("/model/:id", auth, ModelController.update);
+routes.delete("/model/:id", auth, ModelController.delete);

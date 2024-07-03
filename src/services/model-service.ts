@@ -127,4 +127,23 @@ export class ModelService {
 
         return toModelResponse(updated);
     }
+
+    static async delete(req: idRequest): Promise<modelResponse> {
+        const model = await prismaClient.vehicle_Model.count({
+            where: req,
+        });
+
+        if (model == 0) throw new ResponseError(404, "vehicle model not found");
+
+        const deleted = await prismaClient.vehicle_Model.delete({
+            where: req,
+            select: {
+                id: true,
+                name: true,
+                type: true,
+            },
+        });
+
+        return toModelResponse(deleted);
+    }
 }
