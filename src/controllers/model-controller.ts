@@ -26,6 +26,9 @@ export class ModelController {
             const request = {
                 page: req.query.page ? Number(req.query.page) : 1,
             };
+
+            if (isNaN(request.page) || request.page < 1) throw new ResponseError(400, "invalid page input");
+
             const key = Object.keys(req.query)[1];
             const response = await ModelService.getAll(request, key, req.query[key]);
 
@@ -33,6 +36,22 @@ export class ModelController {
                 message: "get vehicle model success",
                 data: response.data,
                 metadata: response.metadata,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async getOne(req: Request, res: Response, next: NextFunction) {
+        try {
+            const request = {
+                id: Number(req.params.id),
+            };
+            const response = await ModelService.getOne(request);
+
+            res.status(200).json({
+                message: "get vehicle model success",
+                data: response,
             });
         } catch (error) {
             next(error);

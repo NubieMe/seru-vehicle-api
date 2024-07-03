@@ -28,3 +28,4 @@ routes.delete("/type/:id", auth, TypeController.delete);
 // model API
 routes.post("/model", auth, ModelController.create);
 routes.get("/model", auth, ModelController.getAll);
+routes.get("/model/:id", auth, ModelController.getOne);
