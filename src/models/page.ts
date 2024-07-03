@@ -1,4 +1,5 @@
 import { brandResponse } from "./brand";
+import { typeResponse } from "./type";
 
 export type pageRequest = {
     page: number;
@@ -12,7 +13,7 @@ export type metadata = {
     total_pages: number;
 };
 
-export type data = brandResponse[];
+export type data = brandResponse[] | typeResponse[];
 
 export type pageResponse = {
     data: data;
