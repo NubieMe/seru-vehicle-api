@@ -2,11 +2,13 @@ import { NextFunction, Request, Response } from "express";
 import { brandRequest } from "../models/brand";
 import { BrandService } from "../services/brand-service";
 import { ResponseError } from "../error/response-error";
-import { date } from "joi";
 
 export class BrandController {
     static async create(req: Request, res: Response, next: NextFunction) {
         try {
+            const isAdmin = res.locals.session.is_admin;
+            if (!isAdmin) throw new ResponseError(403, "Forbidden");
+
             const request = req.body as brandRequest;
             const response = await BrandService.create(request);
 
@@ -55,6 +57,9 @@ export class BrandController {
 
     static async update(req: Request, res: Response, next: NextFunction) {
         try {
+            const isAdmin = res.locals.session.is_admin;
+            if (!isAdmin) throw new ResponseError(403, "Forbidden");
+
             const request = {
                 id: Number(req.params.id),
                 name: req.body.name,
@@ -72,6 +77,9 @@ export class BrandController {
 
     static async delete(req: Request, res: Response, next: NextFunction) {
         try {
+            const isAdmin = res.locals.session.is_admin;
+            if (!isAdmin) throw new ResponseError(403, "Forbidden");
+
             const request = {
                 id: Number(req.params.id),
             };
