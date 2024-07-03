@@ -1,6 +1,7 @@
 import { Vehicle_Brand } from "@prisma/client";
 
 export type brandRequest = {
+    id?: number;
     name: string;
 };
 
