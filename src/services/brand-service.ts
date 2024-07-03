@@ -1,6 +1,7 @@
 import { prismaClient } from "../database/prisma";
 import { ResponseError } from "../error/response-error";
 import { brandRequest, brandResponse, toBrandResponse } from "../models/brand";
+import { pageRequest, pageResponse, toPageResponse } from "../models/page";
 import { createSchema } from "../validation/create-validation";
 import { validate } from "../validation/validate";
 
@@ -21,5 +22,22 @@ export class BrandService {
         });
 
         return toBrandResponse(brand);
+    }
+
+    static async getAll(req: pageRequest): Promise<pageResponse> {
+        const total = await prismaClient.vehicle_Brand.count();
+
+        const skip = 5 * req.page;
+
+        const brands = await prismaClient.vehicle_Brand.findMany({
+            skip,
+            take: 5,
+        });
+
+        return toPageResponse(
+            brands.map((val) => toBrandResponse(val)),
+            total,
+            skip
+        );
     }
 }
