@@ -20,4 +20,22 @@ export class ModelController {
             next(error);
         }
     }
+
+    static async getAll(req: Request, res: Response, next: NextFunction) {
+        try {
+            const request = {
+                page: req.query.page ? Number(req.query.page) : 1,
+            };
+            const key = Object.keys(req.query)[1];
+            const response = await ModelService.getAll(request, key, req.query[key]);
+
+            res.status(200).json({
+                message: "get vehicle model success",
+                data: response.data,
+                metadata: response.metadata,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
 }
