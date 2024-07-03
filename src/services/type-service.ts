@@ -39,12 +39,12 @@ export class TypeService {
         return toTypeResponse(type);
     }
 
-    static async getAll(req: pageRequest, brand_id?: number): Promise<pageResponse> {
+    static async getAll(req: pageRequest, key?: any, value?: any): Promise<pageResponse> {
         const total = await prismaClient.vehicle_Type.count();
 
         const skip = 5 * req.page;
 
-        if (!brand_id) {
+        if (!key || !value) {
             const types = await prismaClient.vehicle_Type.findMany({
                 skip,
                 take: 5,
@@ -65,7 +65,7 @@ export class TypeService {
                 skip,
                 take: 5,
                 where: {
-                    brand_id,
+                    [key]: key == "brand_id" ? Number(value) : value,
                 },
                 select: {
                     id: true,
