@@ -15,7 +15,8 @@ datasource db {
 
 model User {
   id         Int      @id @default(autoincrement())
-  name       String
+  name       String   @unique
+  password   String
   is_admin   Boolean
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
