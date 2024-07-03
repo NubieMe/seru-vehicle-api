@@ -1,9 +1,8 @@
-import { Request } from "express";
 import { Schema } from "joi";
 import { ResponseError } from "../error/response-error";
 
-export function validate<T>(schema: Schema, request: Request): T {
-    const result = schema.validate(request, {
+export function validate<T>(schema: Schema, data: T): T {
+    const result = schema.validate(data, {
         abortEarly: false,
         allowUnknown: false,
     });
