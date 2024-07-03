@@ -3,6 +3,7 @@ import { AuthController } from "../controllers/auth-controller";
 import { BrandController } from "../controllers/brand-controller";
 import { auth } from "../middlewares/auth";
 import { TypeController } from "../controllers/type-controller";
+import { ModelController } from "../controllers/model-controller";
 
 export const routes = express.Router();
 
@@ -23,3 +24,6 @@ routes.get("/type", auth, TypeController.getAll);
 routes.get("/type/:id", auth, TypeController.getOne);
 routes.put("/type/:id", auth, TypeController.update);
 routes.delete("/type/:id", auth, TypeController.delete);
+
+// model API
+routes.post("/model", auth, ModelController.create);
