@@ -21,6 +21,7 @@
 {
     "message": "Register success",
     "data": {
+        "name": "admin",
         "token": "uy876ttfghuhy7r5"
     }
 }
