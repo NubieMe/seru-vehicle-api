@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { brandRequest } from "../models/brand";
 import { BrandService } from "../services/brand-service";
-import { pageRequest } from "../models/page";
 import { ResponseError } from "../error/response-error";
+import { idRequest } from "../models";
 
 export class BrandController {
     static async create(req: Request, res: Response, next: NextFunction) {
@@ -31,6 +31,20 @@ export class BrandController {
                 message: "get brand success",
                 data: response.data,
                 metadata: response.metadata,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async getOne(req: Request, res: Response, next: NextFunction) {
+        try {
+            const request = Number(req.params) as unknown as idRequest;
+            const response = await BrandService.getOne(request);
+
+            res.status(200).json({
+                message: "get brand success",
+                data: response,
             });
         } catch (error) {
             next(error);

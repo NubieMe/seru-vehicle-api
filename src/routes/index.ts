@@ -11,3 +11,4 @@ routes.post("/login", AuthController.login);
 // brand API
 routes.post("/brand", BrandController.create);
 routes.get("/brand", BrandController.getAll);
+routes.get("/brand/:id", BrandController.getOne);
