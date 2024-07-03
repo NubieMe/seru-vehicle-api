@@ -13,3 +13,4 @@ routes.post("/brand", BrandController.create);
 routes.get("/brand", BrandController.getAll);
 routes.get("/brand/:id", BrandController.getOne);
 routes.put("/brand/:id", BrandController.update);
+routes.delete("/brand/:id", BrandController.delete);

@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { brandRequest } from "../models/brand";
 import { BrandService } from "../services/brand-service";
 import { ResponseError } from "../error/response-error";
+import { date } from "joi";
 
 export class BrandController {
     static async create(req: Request, res: Response, next: NextFunction) {
@@ -63,6 +64,22 @@ export class BrandController {
             res.status(200).json({
                 message: "update brand success",
                 data: response,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async delete(req: Request, res: Response, next: NextFunction) {
+        try {
+            const request = {
+                id: Number(req.params.id),
+            };
+            const response = await BrandService.delete(request);
+
+            res.status(200).json({
+                message: "delete brand success",
+                date: response,
             });
         } catch (error) {
             next(error);

@@ -59,7 +59,7 @@ export class BrandService {
             },
         });
 
-        if (!brand) throw new ResponseError(400, "brand not found");
+        if (!brand) throw new ResponseError(404, "brand not found");
 
         brand = await prismaClient.vehicle_Brand.update({
             where: {
@@ -71,5 +71,19 @@ export class BrandService {
         });
 
         return toBrandResponse(brand);
+    }
+
+    static async delete(req: idRequest): Promise<brandResponse> {
+        const brand = await prismaClient.vehicle_Brand.findUnique({
+            where: req,
+        });
+
+        if (!brand) throw new ResponseError(404, "brand not found");
+
+        const deleted = await prismaClient.vehicle_Brand.delete({
+            where: req,
+        });
+
+        return toBrandResponse(deleted);
     }
 }
