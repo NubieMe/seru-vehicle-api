@@ -12,7 +12,7 @@ export class TypeController {
             const request = req.body as typeRequest;
             const response = await TypeService.create(request);
 
-            res.status(200).json({
+            res.status(201).json({
                 message: "create vehicle type success",
                 data: response,
             });
