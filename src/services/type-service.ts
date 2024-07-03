@@ -18,6 +18,15 @@ export class TypeService {
 
         if (brandExist == 0) throw new ResponseError(404, "brand not found");
 
+        const typeExist = await prismaClient.vehicle_Type.count({
+            where: {
+                name: validated.name,
+                brand_id: validated.brand_id,
+            },
+        });
+
+        if (typeExist != 0) throw new ResponseError(400, "vehicle type already exists");
+
         const type = await prismaClient.vehicle_Type.create({
             data: req,
             select: {
