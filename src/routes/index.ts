@@ -21,4 +21,5 @@ routes.delete("/brand/:id", auth, BrandController.delete);
 routes.post("/type", auth, TypeController.create);
 routes.get("/type", auth, TypeController.getAll);
 routes.get("/type/:id", auth, TypeController.getOne);
-routes.put("/type/:id", TypeController.update);
+routes.put("/type/:id", auth, TypeController.update);
+routes.delete("/type/:id", auth, TypeController.delete);

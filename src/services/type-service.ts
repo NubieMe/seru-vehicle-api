@@ -16,7 +16,7 @@ export class TypeService {
             },
         });
 
-        if (brandExist == 0) throw new ResponseError(400, "brand not found");
+        if (brandExist == 0) throw new ResponseError(404, "brand not found");
 
         const type = await prismaClient.vehicle_Type.create({
             data: req,
@@ -83,7 +83,7 @@ export class TypeService {
             },
         });
 
-        if (!type) throw new ResponseError(400, "vehicle type not found");
+        if (!type) throw new ResponseError(404, "vehicle type not found");
 
         return toTypeResponse(type);
     }
@@ -95,7 +95,7 @@ export class TypeService {
             },
         });
 
-        if (type == 0) throw new ResponseError(400, "vehicle type not found");
+        if (type == 0) throw new ResponseError(404, "vehicle type not found");
 
         const brand = await prismaClient.vehicle_Brand.count({
             where: {
@@ -103,7 +103,7 @@ export class TypeService {
             },
         });
 
-        if (brand == 0) throw new ResponseError(400, "brand not found");
+        if (brand == 0) throw new ResponseError(404, "brand not found");
 
         const updated = await prismaClient.vehicle_Type.update({
             where: {
@@ -118,5 +118,24 @@ export class TypeService {
         });
 
         return toTypeResponse(updated);
+    }
+
+    static async delete(req: idRequest): Promise<typeResponse> {
+        const type = await prismaClient.vehicle_Type.count({
+            where: req,
+        });
+
+        if (type == 0) throw new ResponseError(404, "vehicle type not found");
+
+        const deleted = await prismaClient.vehicle_Type.delete({
+            where: req,
+            select: {
+                id: true,
+                name: true,
+                brand: true,
+            },
+        });
+
+        return toTypeResponse(deleted);
     }
 }
