@@ -28,7 +28,13 @@ export class TypeController {
             };
 
             if (isNaN(request.page) || request.page < 1) throw new ResponseError(400, "invalid page input");
-            const response = await TypeService.getAll(request);
+            const response = await TypeService.getAll(request, Number(req.query.brand_id));
+
+            res.status(200).json({
+                message: "get vehicle type success",
+                data: response.data,
+                metadata: response.metadata,
+            });
         } catch (error) {
             next(error);
         }

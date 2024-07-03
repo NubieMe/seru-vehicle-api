@@ -19,3 +19,4 @@ routes.delete("/brand/:id", auth, BrandController.delete);
 
 // type API
 routes.post("/type", auth, TypeController.create);
+routes.get("/type", auth, TypeController.getAll);

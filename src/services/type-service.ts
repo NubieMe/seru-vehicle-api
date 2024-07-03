@@ -29,25 +29,46 @@ export class TypeService {
         return toTypeResponse(type);
     }
 
-    static async getAll(req: pageRequest, brand?: { brand_id: number }): Promise<pageResponse> {
+    static async getAll(req: pageRequest, brand_id?: number): Promise<pageResponse> {
         const total = await prismaClient.vehicle_Type.count();
 
         const skip = 5 * req.page;
 
-        const types = await prismaClient.vehicle_Type.findMany({
-            skip,
-            take: 5,
-            select: {
-                id: true,
-                name: true,
-                brand: true,
-            },
-        });
+        if (!brand_id) {
+            const types = await prismaClient.vehicle_Type.findMany({
+                skip,
+                take: 5,
+                select: {
+                    id: true,
+                    name: true,
+                    brand: true,
+                },
+            });
 
-        return toPageResponse(
-            types.map((val) => toTypeResponse(val)),
-            total,
-            skip
-        );
+            return toPageResponse(
+                types.map((val) => toTypeResponse(val)),
+                total,
+                skip
+            );
+        } else {
+            const types = await prismaClient.vehicle_Type.findMany({
+                skip,
+                take: 5,
+                where: {
+                    brand_id,
+                },
+                select: {
+                    id: true,
+                    name: true,
+                    brand: true,
+                },
+            });
+
+            return toPageResponse(
+                types.map((val) => toTypeResponse(val)),
+                total,
+                skip
+            );
+        }
     }
 }
