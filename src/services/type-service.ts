@@ -8,11 +8,11 @@ import { validate } from "../validation/validate";
 
 export class TypeService {
     static async create(req: typeRequest): Promise<typeResponse> {
-        const vaidated = validate(createSchema.createType, req);
+        const validated = validate(createSchema.createType, req);
 
         const brandExist = await prismaClient.vehicle_Brand.count({
             where: {
-                id: req.brand_id,
+                id: validated.brand_id,
             },
         });
 
@@ -86,5 +86,37 @@ export class TypeService {
         if (!type) throw new ResponseError(400, "vehicle type not found");
 
         return toTypeResponse(type);
+    }
+
+    static async update(req: typeRequest): Promise<typeResponse> {
+        const type = await prismaClient.vehicle_Type.count({
+            where: {
+                id: req.id,
+            },
+        });
+
+        if (type == 0) throw new ResponseError(400, "vehicle type not found");
+
+        const brand = await prismaClient.vehicle_Brand.count({
+            where: {
+                id: req.brand_id,
+            },
+        });
+
+        if (brand == 0) throw new ResponseError(400, "brand not found");
+
+        const updated = await prismaClient.vehicle_Type.update({
+            where: {
+                id: req.id,
+            },
+            data: req,
+            select: {
+                id: true,
+                name: true,
+                brand: true,
+            },
+        });
+
+        return toTypeResponse(updated);
     }
 }
