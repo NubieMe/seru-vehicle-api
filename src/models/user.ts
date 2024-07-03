@@ -11,6 +11,11 @@ export type authResponse = {
     token: string;
 };
 
+export type loginRequest = {
+    name: string;
+    password: string;
+};
+
 export function toAuthResponse(token: string, user?: User): authResponse {
     return !user
         ? {
