@@ -16,7 +16,7 @@ export class AuthService {
             },
         });
 
-        if (nameExist != 0) throw new ResponseError(400, "name already exists");
+        if (nameExist != 0) throw new ResponseError(400, "name already registered");
 
         const hashed = await bcrypt.hash(validated.password, 10);
 
