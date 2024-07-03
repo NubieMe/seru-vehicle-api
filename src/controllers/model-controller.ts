@@ -57,4 +57,25 @@ export class ModelController {
             next(error);
         }
     }
+
+    static async update(req: Request, res: Response, next: NextFunction) {
+        try {
+            const isAdmin = res.locals.session.is_admin;
+            if (!isAdmin) throw new ResponseError(403, "Forbidden");
+
+            const request = {
+                id: Number(req.params.id),
+                name: req.body.name,
+                type_id: req.body.type_id,
+            };
+            const response = await ModelService.update(request);
+
+            res.status(200).json({
+                message: "update vehicle model success",
+                data: response,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
 }

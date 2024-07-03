@@ -95,4 +95,36 @@ export class ModelService {
 
         return toModelResponse(model);
     }
+
+    static async update(req: modelRequest): Promise<modelResponse> {
+        const model = await prismaClient.vehicle_Model.count({
+            where: {
+                id: req.id,
+            },
+        });
+
+        if (model == 0) throw new ResponseError(404, "vehicle model not found");
+
+        const type = await prismaClient.vehicle_Type.count({
+            where: {
+                id: req.type_id,
+            },
+        });
+
+        if (type == 0) throw new ResponseError(404, "vehicle type not found");
+
+        const updated = await prismaClient.vehicle_Model.update({
+            where: {
+                id: req.id,
+            },
+            data: req,
+            select: {
+                id: true,
+                name: true,
+                type: true,
+            },
+        });
+
+        return toModelResponse(updated);
+    }
 }
