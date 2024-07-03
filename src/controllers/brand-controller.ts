@@ -26,8 +26,11 @@ export class BrandController {
             const request = {
                 page: req.query.page ? Number(req.query.page) : 1,
             };
+
             if (isNaN(request.page) || request.page < 1) throw new ResponseError(400, "invalid page input");
-            const response = await BrandService.getAll(request);
+
+            const key = Object.keys(req.query)[1];
+            const response = await BrandService.getAll(request, key, req.query[key]);
 
             res.status(200).json({
                 message: "get brand success",

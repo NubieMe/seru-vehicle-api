@@ -25,21 +25,37 @@ export class BrandService {
         return toBrandResponse(brand);
     }
 
-    static async getAll(req: pageRequest): Promise<pageResponse> {
+    static async getAll(req: pageRequest, key?: any, value?: any): Promise<pageResponse> {
         const total = await prismaClient.vehicle_Brand.count();
 
         const skip = 5 * req.page;
 
-        const brands = await prismaClient.vehicle_Brand.findMany({
-            skip,
-            take: 5,
-        });
+        if (!key || !value) {
+            const brands = await prismaClient.vehicle_Brand.findMany({
+                skip,
+                take: 5,
+            });
 
-        return toPageResponse(
-            brands.map((val) => toBrandResponse(val)),
-            total,
-            skip
-        );
+            return toPageResponse(
+                brands.map((val) => toBrandResponse(val)),
+                total,
+                skip
+            );
+        } else {
+            const brands = await prismaClient.vehicle_Brand.findMany({
+                skip,
+                take: 5,
+                where: {
+                    [key]: value,
+                },
+            });
+
+            return toPageResponse(
+                brands.map((val) => toBrandResponse(val)),
+                total,
+                skip
+            );
+        }
     }
 
     static async getOne(req: idRequest): Promise<brandResponse> {
