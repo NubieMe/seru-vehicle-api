@@ -39,4 +39,20 @@ export class TypeController {
             next(error);
         }
     }
+
+    static async getOne(req: Request, res: Response, next: NextFunction) {
+        try {
+            const request = {
+                id: Number(req.params.id),
+            };
+            const response = await TypeService.getOne(request);
+
+            res.status(200).json({
+                message: "get vehicle type success",
+                data: response,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
 }

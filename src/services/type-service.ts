@@ -1,5 +1,6 @@
 import { prismaClient } from "../database/prisma";
 import { ResponseError } from "../error/response-error";
+import { idRequest } from "../models";
 import { pageRequest, pageResponse, toPageResponse } from "../models/page";
 import { toTypeResponse, typeRequest, typeResponse } from "../models/type";
 import { createSchema } from "../validation/create-validation";
@@ -70,5 +71,20 @@ export class TypeService {
                 skip
             );
         }
+    }
+
+    static async getOne(req: idRequest): Promise<typeResponse> {
+        const type = await prismaClient.vehicle_Type.findUnique({
+            where: req,
+            select: {
+                id: true,
+                name: true,
+                brand: true,
+            },
+        });
+
+        if (!type) throw new ResponseError(400, "vehicle type not found");
+
+        return toTypeResponse(type);
     }
 }
