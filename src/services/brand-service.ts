@@ -51,4 +51,25 @@ export class BrandService {
 
         return toBrandResponse(brand);
     }
+
+    static async update(req: brandRequest): Promise<brandResponse> {
+        let brand = await prismaClient.vehicle_Brand.findUnique({
+            where: {
+                id: req.id,
+            },
+        });
+
+        if (!brand) throw new ResponseError(400, "brand not found");
+
+        brand = await prismaClient.vehicle_Brand.update({
+            where: {
+                id: req.id,
+            },
+            data: {
+                name: req.name,
+            },
+        });
+
+        return toBrandResponse(brand);
+    }
 }

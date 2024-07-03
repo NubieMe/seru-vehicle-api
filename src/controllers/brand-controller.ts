@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import { brandRequest } from "../models/brand";
 import { BrandService } from "../services/brand-service";
 import { ResponseError } from "../error/response-error";
-import { idRequest } from "../models";
 
 export class BrandController {
     static async create(req: Request, res: Response, next: NextFunction) {
@@ -39,11 +38,30 @@ export class BrandController {
 
     static async getOne(req: Request, res: Response, next: NextFunction) {
         try {
-            const request = Number(req.params) as unknown as idRequest;
+            const request = {
+                id: Number(req.params.id),
+            };
             const response = await BrandService.getOne(request);
 
             res.status(200).json({
                 message: "get brand success",
+                data: response,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async update(req: Request, res: Response, next: NextFunction) {
+        try {
+            const request = {
+                id: Number(req.params.id),
+                name: req.body.name,
+            };
+            const response = await BrandService.update(request);
+
+            res.status(200).json({
+                message: "update brand success",
                 data: response,
             });
         } catch (error) {

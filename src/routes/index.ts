@@ -12,3 +12,4 @@ routes.post("/login", AuthController.login);
 routes.post("/brand", BrandController.create);
 routes.get("/brand", BrandController.getAll);
 routes.get("/brand/:id", BrandController.getOne);
+routes.put("/brand/:id", BrandController.update);
