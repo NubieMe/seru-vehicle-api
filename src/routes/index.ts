@@ -5,6 +5,7 @@ import { auth } from "../middlewares/auth";
 import { TypeController } from "../controllers/type-controller";
 import { ModelController } from "../controllers/model-controller";
 import { YearController } from "../controllers/year-controller";
+import { PriceController } from "../controllers/price-controller";
 
 export const routes = express.Router();
 
@@ -39,3 +40,6 @@ routes.get("/year", auth, YearController.getAll);
 routes.get("/year/:id", auth, YearController.getOne);
 routes.put("/year/:id", auth, YearController.update);
 routes.delete("/year", auth, YearController.delete);
+
+// pricelist API
+routes.post("/price", auth, PriceController.create);
