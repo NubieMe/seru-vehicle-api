@@ -87,4 +87,18 @@ export class YearService {
 
         return toYearResponse(updated);
     }
+
+    static async delete(req: idRequest): Promise<yearResponse> {
+        const year = await prismaClient.vehicle_Year.count({
+            where: req,
+        });
+
+        if (year == 0) throw new ResponseError(404, "year not found");
+
+        const deleted = await prismaClient.vehicle_Year.delete({
+            where: req,
+        });
+
+        return toYearResponse(deleted);
+    }
 }
