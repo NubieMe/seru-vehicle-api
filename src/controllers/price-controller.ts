@@ -20,4 +20,24 @@ export class PriceController {
             next(error);
         }
     }
+
+    static async getAll(req: Request, res: Response, next: NextFunction) {
+        try {
+            const request = {
+                page: req.query.page ? Number(req.query.page) : 1,
+            };
+            if (isNaN(request.page) || request.page < 1) throw new ResponseError(400, "invalid page input");
+
+            const key = Object.keys(req.query)[1];
+            const response = await PriceService.getAll(request, key, req.query[key]);
+
+            res.status(200).json({
+                message: "get pricelist success",
+                data: response.data,
+                metadata: response.metadata,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
 }
