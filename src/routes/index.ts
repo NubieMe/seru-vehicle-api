@@ -35,3 +35,4 @@ routes.delete("/model/:id", auth, ModelController.delete);
 
 // year API
 routes.post("/year", auth, YearController.create);
+routes.get("/year", auth, YearController.getAll);

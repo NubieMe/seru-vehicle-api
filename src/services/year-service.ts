@@ -1,5 +1,6 @@
 import { prismaClient } from "../database/prisma";
 import { ResponseError } from "../error/response-error";
+import { pageRequest, pageResponse, toPageResponse } from "../models/page";
 import { toYearResponse, yearRequest, yearResponse } from "../models/year";
 import { createSchema } from "../validation/create-validation";
 import { validate } from "../validation/validate";
@@ -21,5 +22,37 @@ export class YearService {
         });
 
         return toYearResponse(year);
+    }
+
+    static async getAll(req: pageRequest, key?: any, value?: any): Promise<pageResponse> {
+        const total = await prismaClient.vehicle_Year.count();
+
+        const skip = 5 * req.page;
+        if (!key || !value) {
+            const years = await prismaClient.vehicle_Year.findMany({
+                skip,
+                take: 5,
+            });
+
+            return toPageResponse(
+                years.map((val) => toYearResponse(val)),
+                total,
+                skip
+            );
+        } else {
+            const years = await prismaClient.vehicle_Year.findMany({
+                skip,
+                take: 5,
+                where: {
+                    [key]: value,
+                },
+            });
+
+            return toPageResponse(
+                years.map((val) => toYearResponse(val)),
+                total,
+                skip
+            );
+        }
     }
 }
