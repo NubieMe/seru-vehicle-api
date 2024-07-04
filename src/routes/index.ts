@@ -43,3 +43,4 @@ routes.delete("/year", auth, YearController.delete);
 
 // pricelist API
 routes.post("/price", auth, PriceController.create);
+routes.get("/price", auth, PriceController.getAll);
