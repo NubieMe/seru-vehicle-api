@@ -155,4 +155,27 @@ export class PriceService {
 
         return toPriceResponse(updated);
     }
+
+    static async delete(req: idRequest): Promise<priceResponse> {
+        const pricelist = await prismaClient.pricelist.count({
+            where: {
+                id: req.id,
+            },
+        });
+
+        if (pricelist == 0) throw new ResponseError(400, "pricelist not found");
+
+        const deleted = await prismaClient.pricelist.delete({
+            where: req,
+            select: {
+                id: true,
+                code: true,
+                price: true,
+                year: true,
+                model: true,
+            },
+        });
+
+        return toPriceResponse(deleted);
+    }
 }

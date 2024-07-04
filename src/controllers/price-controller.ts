@@ -59,12 +59,34 @@ export class PriceController {
 
     static async update(req: Request, res: Response, next: NextFunction) {
         try {
+            const isAdmin = res.locals.session.is_admin;
+            if (!isAdmin) throw new ResponseError(403, "Forbidden");
+
             const request = req.body as priceRequest;
             request.id = Number(req.params.id);
             const response = await PriceService.update(request);
 
             res.status(200).json({
                 message: "update pricelist success",
+                data: response,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async delete(req: Request, res: Response, next: NextFunction) {
+        try {
+            const isAdmin = res.locals.session.is_admin;
+            if (!isAdmin) throw new ResponseError(403, "Forbidden");
+
+            const request = {
+                id: Number(req.params.id),
+            };
+            const response = await PriceService.delete(request);
+
+            res.status(200).json({
+                message: "delete pricelist success",
                 data: response,
             });
         } catch (error) {

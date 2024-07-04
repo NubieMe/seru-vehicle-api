@@ -46,3 +46,4 @@ routes.post("/price", auth, PriceController.create);
 routes.get("/price", auth, PriceController.getAll);
 routes.get("/price/:id", auth, PriceController.getOne);
 routes.put("/price/:id", auth, PriceController.update);
+routes.delete("/price/:id", auth, PriceController.delete);
