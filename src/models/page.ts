@@ -1,6 +1,7 @@
 import { brandResponse } from "./brand";
 import { modelResponse } from "./model";
 import { typeResponse } from "./type";
+import { yearResponse } from "./year";
 
 export type pageRequest = {
     page: number;
@@ -14,7 +15,7 @@ export type metadata = {
     total_pages: number;
 };
 
-export type data = brandResponse[] | typeResponse[] | modelResponse[];
+export type data = brandResponse[] | typeResponse[] | modelResponse[] | yearResponse[];
 
 export type pageResponse = {
     data: data;
