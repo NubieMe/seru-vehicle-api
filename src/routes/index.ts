@@ -4,6 +4,7 @@ import { BrandController } from "../controllers/brand-controller";
 import { auth } from "../middlewares/auth";
 import { TypeController } from "../controllers/type-controller";
 import { ModelController } from "../controllers/model-controller";
+import { YearController } from "../controllers/year-controller";
 
 export const routes = express.Router();
 
@@ -31,3 +32,6 @@ routes.get("/model", auth, ModelController.getAll);
 routes.get("/model/:id", auth, ModelController.getOne);
 routes.put("/model/:id", auth, ModelController.update);
 routes.delete("/model/:id", auth, ModelController.delete);
+
+// year API
+routes.post("/year", auth, YearController.create);
