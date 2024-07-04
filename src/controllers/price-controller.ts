@@ -56,4 +56,19 @@ export class PriceController {
             next(error);
         }
     }
+
+    static async update(req: Request, res: Response, next: NextFunction) {
+        try {
+            const request = req.body as priceRequest;
+            request.id = Number(req.params.id);
+            const response = await PriceService.update(request);
+
+            res.status(200).json({
+                message: "update pricelist success",
+                data: response,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
 }

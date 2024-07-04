@@ -113,4 +113,46 @@ export class PriceService {
 
         return toPriceResponse(pricelist);
     }
+
+    static async update(req: priceRequest): Promise<priceResponse> {
+        const pricelist = await prismaClient.pricelist.count({
+            where: {
+                id: req.id,
+            },
+        });
+
+        if (pricelist == 0) throw new ResponseError(400, "pricelist not found");
+
+        const yearExist = await prismaClient.vehicle_Year.count({
+            where: {
+                id: req.year_id,
+            },
+        });
+
+        if (yearExist == 0) throw new ResponseError(400, "year not found");
+
+        const modelExist = await prismaClient.vehicle_Model.count({
+            where: {
+                id: req.model_id,
+            },
+        });
+
+        if (modelExist == 0) throw new ResponseError(400, "model not found");
+
+        const updated = await prismaClient.pricelist.update({
+            where: {
+                id: req.id,
+            },
+            data: req,
+            select: {
+                id: true,
+                code: true,
+                price: true,
+                year: true,
+                model: true,
+            },
+        });
+
+        return toPriceResponse(updated);
+    }
 }
