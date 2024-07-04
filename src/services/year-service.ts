@@ -66,4 +66,25 @@ export class YearService {
 
         return toYearResponse(year);
     }
+
+    static async update(req: yearRequest): Promise<yearResponse> {
+        const year = await prismaClient.vehicle_Year.count({
+            where: {
+                id: req.id,
+            },
+        });
+
+        if (year == 0) throw new ResponseError(404, "year not found");
+
+        const updated = await prismaClient.vehicle_Year.update({
+            where: {
+                id: req.id,
+            },
+            data: {
+                year: req.year,
+            },
+        });
+
+        return toYearResponse(updated);
+    }
 }

@@ -56,4 +56,24 @@ export class YearController {
             next(error);
         }
     }
+
+    static async update(req: Request, res: Response, next: NextFunction) {
+        try {
+            const isAdmin = res.locals.session.is_admin;
+            if (!isAdmin) throw new ResponseError(403, "Forbidden");
+
+            const request = {
+                id: Number(req.params.id),
+                year: req.body.year,
+            };
+            const response = await YearService.update(request);
+
+            res.status(200).json({
+                message: "update year success",
+                data: response,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
 }

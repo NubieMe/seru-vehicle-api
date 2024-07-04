@@ -37,3 +37,4 @@ routes.delete("/model/:id", auth, ModelController.delete);
 routes.post("/year", auth, YearController.create);
 routes.get("/year", auth, YearController.getAll);
 routes.get("/year/:id", auth, YearController.getOne);
+routes.put("/year/:id", auth, YearController.update);
