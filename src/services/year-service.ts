@@ -1,5 +1,6 @@
 import { prismaClient } from "../database/prisma";
 import { ResponseError } from "../error/response-error";
+import { idRequest } from "../models";
 import { pageRequest, pageResponse, toPageResponse } from "../models/page";
 import { toYearResponse, yearRequest, yearResponse } from "../models/year";
 import { createSchema } from "../validation/create-validation";
@@ -54,5 +55,15 @@ export class YearService {
                 skip
             );
         }
+    }
+
+    static async getOne(req: idRequest): Promise<yearResponse> {
+        const year = await prismaClient.vehicle_Year.findUnique({
+            where: req,
+        });
+
+        if (!year) throw new ResponseError(404, "year not found");
+
+        return toYearResponse(year);
     }
 }
