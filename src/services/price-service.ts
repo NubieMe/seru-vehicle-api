@@ -1,5 +1,6 @@
 import { prismaClient } from "../database/prisma";
 import { ResponseError } from "../error/response-error";
+import { idRequest } from "../models";
 import { pageRequest, pageResponse, toPageResponse } from "../models/page";
 import { priceRequest, priceResponse, toPriceResponse } from "../models/pricelist";
 import { createSchema } from "../validation/create-validation";
@@ -94,5 +95,22 @@ export class PriceService {
                 skip
             );
         }
+    }
+
+    static async getOne(req: idRequest): Promise<priceResponse> {
+        const pricelist = await prismaClient.pricelist.findUnique({
+            where: req,
+            select: {
+                id: true,
+                code: true,
+                price: true,
+                year: true,
+                model: true,
+            },
+        });
+
+        if (!pricelist) throw new ResponseError(404, "pricelist not found");
+
+        return toPriceResponse(pricelist);
     }
 }

@@ -40,4 +40,20 @@ export class PriceController {
             next(error);
         }
     }
+
+    static async getOne(req: Request, res: Response, next: NextFunction) {
+        try {
+            const request = {
+                id: Number(req.params.id),
+            };
+            const response = await PriceService.getOne(request);
+
+            res.status(200).json({
+                message: "get pricelist success",
+                data: response,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
 }
