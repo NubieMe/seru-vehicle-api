@@ -78,7 +78,7 @@ export class PriceService {
                 skip,
                 take: 5,
                 where: {
-                    [key]: key == "year_id" || "model_id" ? Number(value) : value,
+                    [key]: key == "code" ? value : Number(value),
                 },
                 select: {
                     id: true,
