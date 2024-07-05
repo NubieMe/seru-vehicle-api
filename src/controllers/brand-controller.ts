@@ -29,7 +29,7 @@ export class BrandController {
 
             if (isNaN(request.page) || request.page < 1) throw new ResponseError(400, "invalid page input");
 
-            const key = Object.keys(req.query)[1];
+            const key = Object.keys(req.query)[0];
             const response = await BrandService.getAll(request, key, req.query[key]);
 
             res.status(200).json({
