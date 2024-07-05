@@ -42,7 +42,7 @@ export class ModelService {
     static async getAll(req: pageRequest, key?: any, value?: any): Promise<pageResponse> {
         const total = await prismaClient.vehicle_Model.count();
 
-        const skip = 5 * req.page;
+        const skip = 5 * req.page - 5;
         if (!key || !value) {
             const models = await prismaClient.vehicle_Model.findMany({
                 skip,

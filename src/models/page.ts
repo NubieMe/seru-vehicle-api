@@ -30,8 +30,8 @@ export function toPageResponse(data: data, total: number, skip: number): pageRes
             total,
             limit: 5,
             offset: skip,
-            current_page: skip / 5,
-            total_pages: total % 5 === 0 ? total / 5 : total / 5 + 1,
+            current_page: skip % 5 == 0 ? (skip + 5) / 5 : Math.floor(skip + 5) / 5 + 1,
+            total_pages: total % 5 === 0 ? total / 5 : Math.floor(total / 5) + 1,
         },
     };
 }

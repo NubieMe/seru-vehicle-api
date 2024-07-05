@@ -28,7 +28,7 @@ export class BrandService {
     static async getAll(req: pageRequest, key?: any, value?: any): Promise<pageResponse> {
         const total = await prismaClient.vehicle_Brand.count();
 
-        const skip = 5 * req.page;
+        const skip = 5 * req.page - 5;
 
         if (!key || !value) {
             const brands = await prismaClient.vehicle_Brand.findMany({

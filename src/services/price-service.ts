@@ -54,7 +54,7 @@ export class PriceService {
     static async getAll(req: pageRequest, key?: any, value?: any): Promise<pageResponse> {
         const total = await prismaClient.pricelist.count();
 
-        const skip = 5 * req.page;
+        const skip = 5 * req.page - 5;
         if (!key || !value) {
             const pricelists = await prismaClient.pricelist.findMany({
                 skip,
